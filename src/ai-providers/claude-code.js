@@ -25,6 +25,8 @@ import { BaseAIProvider } from './base-provider.js';
 
 let _claudeCliChecked = false;
 let _claudeCliAvailable = null;
+const CLAUDE_CODE_SETUP_URL =
+	'https://docs.anthropic.com/en/docs/claude-code/getting-started';
 
 /**
  * Provider for Claude Code CLI integration via AI SDK
@@ -115,7 +117,7 @@ export class ClaudeCodeProvider extends BaseAIProvider {
 				if (!_claudeCliAvailable) {
 					log(
 						'warn',
-						'Claude Code CLI not detected. Install it from: https://docs.anthropic.com/en/docs/claude-code/getting-started'
+						`Claude Code CLI not detected. Follow the official setup guide: ${CLAUDE_CODE_SETUP_URL}`
 					);
 				}
 			} finally {
@@ -178,7 +180,7 @@ export class ClaudeCodeProvider extends BaseAIProvider {
 			const code = error?.code;
 			if (code === 'ENOENT' || /claude/i.test(msg)) {
 				const enhancedError = new Error(
-					`Claude Code CLI not available. Install it from: https://docs.anthropic.com/en/docs/claude-code/getting-started - Original error: ${error.message}`
+					`Claude Code CLI not available. Follow the official setup guide: ${CLAUDE_CODE_SETUP_URL}. Original error: ${error.message}`
 				);
 				enhancedError.cause = error;
 				this.handleError('Claude Code CLI initialization', enhancedError);
